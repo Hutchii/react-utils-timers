@@ -33,18 +33,17 @@ const useCountdownTimer = ({
   onTimeEnd?: () => void;
 }) => {
   const [timeLeft, setTimeLeft] = useState(time);
-  const intervalRef = useRef<any>(null);
 
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
+    const timer = setInterval(() => {
       if (timeLeft <= 0) {
-        clearInterval(intervalRef.current);
+        clearInterval(timer);
         onTimeEnd && onTimeEnd();
         return;
       }
       setTimeLeft((p) => p - 1);
     }, 1000);
-    return () => clearInterval(intervalRef.current);
+    return () => clearInterval(timer);
   }, [onTimeEnd, timeLeft]);
 
   let timeFormatted = `${String(Math.trunc(timeLeft / 60)).padStart(
